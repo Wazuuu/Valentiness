@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message For You</title>
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Georgia', serif;
+            background: url('your-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex; justify-content: center; align-items: flex-start; 
+            min-height: 100vh; overflow-x: hidden;
+        }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); z-index: 1;
+        }
+
+        .letter-container {
+            position: relative; z-index: 2; background: rgba(255, 252, 240, 0.95);
+            width: 95%; max-width: 900px; margin: 50px 0 100px 0; 
+            padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        /* --- TYPEWRITER HEADER --- */
+        .typewriter-container { display: inline-block; margin-bottom: 20px; }
+        h1 {
+            color: #d63384; font-size: 2.5rem; overflow: hidden; 
+            border-right: .15em solid #d63384; white-space: nowrap; 
+            margin: 0 auto; letter-spacing: .15em; 
+            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #d63384 } }
+
+        /* --- SIDE-BY-SIDE ROW LAYOUT --- */
+        .row { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 40px; 
+            margin: 80px 0; 
+            flex-wrap: wrap;
+            text-align: left; 
+        }
+
+        .reverse { flex-direction: row-reverse; }
+
+        .image-box { 
+            flex: 1; 
+            min-width: 280px; 
+            position: relative; 
+            transition: transform 0.4s ease; 
+        }
+
+        .text-box { 
+            flex: 1.2; 
+            min-width: 280px; 
+            font-size: 1.2rem; 
+            line-height: 1.8; 
+            color: #444; 
+        }
+
+        /* --- POLAROID & HOVER EFFECTS --- */
+        .row:nth-child(odd) .image-box { transform: rotate(-3deg); }
+        .row:nth-child(even) .image-box { transform: rotate(3deg); }
+        .image-box:hover { transform: rotate(0deg) scale(1.05); z-index: 10; }
+
+        .image-box img, .image-box video {
+            width: 100%; height: 350px; object-fit: cover; border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 12px solid white; border-bottom: 40px solid white;
+        }
+
+        .hover-caption {
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            color: #d63384; font-weight: bold; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .image-box:hover .hover-caption { opacity: 1; }
+
+        /* --- FULL SCREEN BOUQUET MODAL --- */
+        #bouquet-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center;
+            align-items: center; flex-direction: column; animation: fadeIn 0.5s ease-in;
+        }
+
+        .giant-flower { 
+            font-size: 250px; filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8)); 
+            animation: bloom 1.5s ease-out forwards; 
+        }
+
+        .modal-message { color: white; font-size: 1.8rem; margin-top: 20px; font-style: italic; text-align: center; padding: 0 20px; }
+        .close-btn { margin-top: 40px; background: white; color: #d63384; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .close-btn:hover { background: #d63384; color: white; transform: scale(1.1); }
+
+        @keyframes bloom { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* --- BUTTONS & EXTRAS --- */
+        .btn-surprise {
+            background-color: #d63384; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+        }
+
+        .heart { position: fixed; top: -10px; color: rgba(214, 51, 132, 0.6); font-size: 20px; pointer-events: none; z-index: 0; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .footer { margin-top: 30px; font-size: 1.5rem; color: #d63384; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <audio id="mySong" src="Buko.mp3" loop></audio>
+    <div class="overlay"></div>
+
+    <div class="letter-container">
+        <div class="typewriter-container">
+            <h1>Dear Ellie...</h1>
+        </div>
+
+        <div class="row">
+            <div class="image-box">
+                <img src="image.png" alt="Memory 1">
+                <div class="hover-caption">One of my favorite days ❤️</div>
+            </div>
+            <div class="text-box">
+                <p>I wanted to tell you how much I love and appreciate you. Thank you for coming into my life.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="image-box">
+                <img src="1.jpg" alt="Memory 2">
+                <div class="hover-caption"></div>
+            </div>
+            <div class="text-box">
+                <p>I can't wait till we were in the same house, I promise babawi tayo sa mga celebrations.</p>
+            </div>
+        </div>
+
+        <div class="row reverse">
+            <div class="image-box">
+                <video src="us.mp4" controls loop></video>
+                <div class="hover-caption">A little surprise for you! 🎥</div>
+            </div>
+            <div class="text-box">
+                <p>miss na miss na kita boi, mamamatay na ata ako</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="image-box">
+                <img src="1.jpg" alt="Memory 2">
+                <div class="hover-caption"></div>
+            </div>
+            <div class="text-box">
+                <p>kakampi mo ako sa lahat baby, support lang me sa mga wants mo nandito lang ako palagi.</p>
+            </div>
+        </div>
+
+        <div class="row reverse">
+            <div class="image-box">
+                <video src="us1.mp4" controls loop></video>
+                <div class="hover-caption">Basa na tayo AHHAHAHA 🎥</div>
+            </div>
+            <div class="text-box">
+                <p>lagi mong tandaan na love na lovee kita ahh, palagi akong nandito sa tabi mo</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="image-box">
+                <img src="2.jpg" alt="Memory 2">
+                <div class="hover-caption">FIRST PHOTOBOOTH! ✨</div>
+            </div>
+            <div class="text-box">
+                <p>MAHAL NA MAHAL KITAAAA!</p>
+            </div>
+        </div>
+
+        <button class="btn-surprise" onclick="openBouquet()">Click for a surprise 🎁</button>
+        <div class="footer">See you soon! ❤️</div>
+    </div>
+
+    <div id="bouquet-modal">
+        <div class="giant-flower">💐</div>
+        <div class="modal-message">Happy Valentine's Day! I'm so lucky to have you. ❤️</div>
+        <button class="close-btn" onclick="closeBouquet()">Back to Letter</button>
+    </div>
+
+    <script>
+        // --- Music, Video & Hearts Logic ---
+        const audio = document.getElementById('mySong');
+        const videos = document.querySelectorAll('video');
+
+        // Music Autoplay handler
+        window.addEventListener('load', function() {
+            audio.play().catch(function() {
+                document.body.addEventListener('click', function() { audio.play(); }, { once: true });
+            });
+        });
+
+        // Loop through all videos to add Play/Pause/End listeners
+        videos.forEach(video => {
+            // Pause music when a video starts
+            video.addEventListener('play', () => {
+                audio.pause();
+            });
+
+            // Resume music when video is paused or finished
+            video.addEventListener('pause', () => {
+                audio.play();
+            });
+
+            video.addEventListener('ended', () => {
+                audio.play();
+            });
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div'); heart.classList.add('heart'); heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // Modal Logic
+        function openBouquet() {
+            document.getElementById('bouquet-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeBouquet() {
+            document.getElementById('bouquet-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
